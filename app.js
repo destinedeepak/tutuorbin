@@ -8,6 +8,7 @@ const mongoose = require('mongoose');
 require('dotenv').config();
 
 var usersRouter = require('./routes/users');
+var todosRouter = require('./routes/todos');
 
 
 // db connection
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/users', usersRouter);
+app.use('/api/todos', todosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

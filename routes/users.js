@@ -5,10 +5,17 @@ var router = express.Router();
 
 /* REGISTER users */
 router.post('/', async (req, res, next) => {
+  const { email } = req.body;
    try{
-    var user = await User.create(req.body);
-    let token = await user.signToken();
-    res.json({user: await user.userJSON(token)})
+    let user = await User.findOne({email});
+    if(user) return res.json({
+      user: await user.userJSON( await user.signToken()),
+      message: "User already exists",
+    });
+    user = await User.create(req.body);
+    res.json({
+      user: await user.userJSON( await user.signToken()),
+    })
    }catch(error){
      next(error);
    }
